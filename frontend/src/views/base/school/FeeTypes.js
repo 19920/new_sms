@@ -41,32 +41,19 @@ import {
   import { DocsLink } from 'src/reusable'
   
   const usersData=[
-      {id:1,name:"MP",description:"Math-Physics",addedAt:"2021-04-15",action:'Edit,Delete'},
-      {id:2,name:"BC",description:"Bio-Chimie",addedAt:"2021-04-13",action:'Edit,Delete'},
-      {id:4,name:"ECO",description:"Economie",addedAt:"2021-04-12",action:'Edit,Delete'},
+      {id:1,name:"Admission Fee",amount:20000,from:"2021-04-15",period:'One Time',action:'Edit,Delete'},
+      {id:2,name:"Uniform Fee",amount:5000,from:"2021-02-15",period:'Annually',action:'Edit,Delete'},
+      {id:4,name:"Books Fee",amount:10000,from:"2021-01-15",period:'Annually',action:'Edit,Delete'},
   ]
-   
-  const getBadge = status => {
-    switch (status) {
-      case 'Active': return 'success'
-      case 'Inactive': return 'secondary'
-      case 'Pending': return 'warning'
-      case 'Banned': return 'danger'
-      default: return 'primary'
-    }
-  }
-  const fields = ['id','name','description',"addedAt","action"]
-
-
-const NewSection = () => {
+const FeeTypes = () => {
     const[showForm,setShowForm] = useState(false)
     return (
         <>
-          <button 
+                     <button 
     onClick={()=>setShowForm(!showForm)}
     className="btn btn-success btn-lg pull-right mb-2">{showForm?"Hide Form":"Add new section"}</button>
        {showForm&&<>
-        <h1 className="text-center pt-5">Add New Section</h1>
+        <h1 className="text-center pt-5">Add New Fee Type</h1>
 
         <CRow>
           
@@ -85,11 +72,11 @@ const NewSection = () => {
                 </CFormGroup> */}
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="text-input">Section Name</CLabel>
+                    <CLabel htmlFor="text-input">Fee Type Name</CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput id="text-input" name="text-input" placeholder="Name" />
-                    <CFormText>Please enter the section name</CFormText>
+                    <CFormText>Please enter type name</CFormText>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -123,68 +110,70 @@ const NewSection = () => {
       <CRow>
           
       </CRow>
-       </>}
-
-      <CRow>
-
-
-        <CCol xs="12" lg="12">
-         
-  <h1 className="text-center pt-5">All Sections</h1>
-
-  <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
- <CInput id="text-input" name="text-input" placeholder="Search section by name" />
-  </CForm>
-          <Table striped bordered hover responsive className="table-sm">
-      <thead className="bg-info">
-          <tr>
-              <th>ID</th>
-              <th>NAME</th>
-              <th>DESCRIPTION</th>
-              <th>ADDED AT</th>
-              <th>ACTION</th>
-             
-              
-              
-          </tr>
-      </thead>
-      <tbody>
-      {usersData&&usersData.map(product=>(
-      <tr key={product.id}>
-                    <td>{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.description}</td>
-                  <td>{product.addedAt}</td>
-                  
-                  
-                  <td>
-                      <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
-                          <Button variant="success" className="btn-sm">
-                          <i className="fas fa-edit"></i>
-                          Edit
-                          </Button>
-                      </LinkContainer>
-                      <Button variant="danger" className="btn-sm">
-                          <i className="fas fa-trash"></i>
-                          Delete
-                          </Button>
-
-                  </td>
-
-              </tr>))
-}
-      </tbody>
-
-  </Table>
-        </CCol>
-      </CRow>
-
-  
+       </>} 
+       <CRow>
 
 
+<CCol xs="12" lg="12">
+ 
+<h1 className="text-center pt-5">All Fee Types</h1>
+
+<CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
+<CInput id="text-input" name="text-input" placeholder="Search section by name" />
+</CForm>
+  <Table striped bordered hover responsive className="table-sm">
+<thead className="bg-info">
+  <tr>
+      <th>ID</th>
+      <th>NAME</th>
+      <th>AMOUNT</th>
+      <th>PERIOD</th>
+      <th>DATE</th>
+      <th>ACTION</th>
      
-      </>
+      
+      
+  </tr>
+</thead>
+<tbody>
+{usersData&&usersData.map(product=>(
+<tr key={product.id}>
+            <td>{product.id}</td>
+          <td>{product.name}</td>
+          <td>{product.amount}</td>
+          <td>{product.period}</td>
+          <td>{product.from}</td>
+          
+          
+          <td>
+          <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
+                  <Button variant="success" className="btn-sm mr-2">
+                  <i className="fas fa-edit"></i>
+                  View
+                  </Button>
+              </LinkContainer>
+              <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
+                  <Button variant="warning" className="btn-sm mr-2">
+                  <i className="fas fa-edit"></i>
+                  Edit
+                  </Button>
+              </LinkContainer>
+              <Button variant="danger" className="btn-sm">
+                  <i className="fas fa-trash"></i>
+                  Delete
+                  </Button>
+
+          </td>
+
+      </tr>))
+}
+</tbody>
+
+</Table>
+</CCol>
+</CRow>
+        </>
     )
 }
 
-export default NewSection
+export default FeeTypes

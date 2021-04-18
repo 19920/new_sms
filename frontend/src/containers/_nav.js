@@ -26,9 +26,15 @@ const _nav =  [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'School',
+        name: 'My School',
         to: '/schools/myschool',
       },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'All Schools',
+        to: '/all-schools',
+      },
+      
       {
         _tag: 'CSidebarNavItem',
         name: 'New School',
@@ -77,7 +83,7 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Settings',
-        to: '/buttons/button-groups',
+        to: '/school/settings',
       },
       {
         _tag: 'CSidebarNavItem',
@@ -106,47 +112,47 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Subjects',
-        to: '/buttons/button-groups',
+        to: '/school/all-subjects',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Timetable',
-        to: '/buttons/button-dropdowns',
+        to: '/school/class-timetable',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Attendance',
-        to: '/buttons/button-groups',
+        to: '/school/class-attendances',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Student Leaves',
-        to: '/buttons/button-groups',
+        to: '/school/stuent-leaves',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Study Materials',
-        to: '/buttons/button-groups',
+        to: '/school/study-materials',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Home Work',
-        to: '/buttons/button-groups',
+        to: '/school/homeworks',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Noticeboard',
-        to: '/buttons/button-groups',
+        to: '/school/class-noticeboard',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Events',
-        to: '/buttons/button-groups',
+        to: '/school/events',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Live Classes',
-        to: '/buttons/button-groups',
+        to: '/school/live-classes',
       },
     ],
   },
@@ -160,23 +166,44 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Dashboard',
-        to: '/buttons/buttons',
+        to: '/student/dashboard',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Inquiries',
-        to: '/buttons/brand-buttons',
+        name: 'Admission',
+        to: '/student/admission',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Settings',
-        to: '/buttons/button-groups',
+        name: 'Students',
+        to: '/Students',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Logs',
-        to: '/buttons/button-dropdowns',
-      }
+        name: 'ID Cards',
+        to: '/student/cards',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Promote',
+        to: '/student/promotion',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Transfer Student',
+        to: '/student/transfer',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Certificates',
+        to: '/student/certificates',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Notifications',
+        to: '/student/notifications',
+      },
+
     ],
   },
   {
@@ -192,8 +219,13 @@ const _nav =  [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Staff List',
-        to: '/buttons/brand-buttons',
+        name: 'All Staff',
+        to: '/schools/allstaff',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'New Staff',
+        to: '/schools/staff',
       },
       {
         _tag: 'CSidebarNavItem',
@@ -217,21 +249,26 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Dashboard',
-        to: '/buttons/buttons',
+        to: '/accounting/dashbord',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Inquiries',
+        name: 'Income',
         to: '/buttons/brand-buttons',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Settings',
+        name: 'Expenses',
         to: '/buttons/button-groups',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Logs',
+        name: 'Fee Types',
+        to: '/accounting/feetypes',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Fee Invoices',
         to: '/buttons/button-dropdowns',
       }
     ],
@@ -245,21 +282,26 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Dashboard',
-        to: '/buttons/buttons',
+        to: '/examination/dashboard',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Inquiries',
+        name: 'Manage Exams',
         to: '/buttons/brand-buttons',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Settings',
+        name: 'Exam Admit Cards',
         to: '/buttons/button-groups',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Logs',
+        name: 'Exam Results',
+        to: '/buttons/button-dropdowns',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Exam Assessment',
         to: '/buttons/button-dropdowns',
       }
     ],
@@ -273,22 +315,22 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Dashboard',
-        to: '/buttons/buttons',
+        to: '/library/dashboard',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Inquiries',
-        to: '/buttons/brand-buttons',
+        name: 'All Books',
+        to: '/library/books',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Settings',
-        to: '/buttons/button-groups',
+        name: 'Books Issued',
+        to: '/library/issued-books',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Logs',
-        to: '/buttons/button-dropdowns',
+        name: 'Library Cards',
+        to: '/library/cards',
       }
     ],
   },

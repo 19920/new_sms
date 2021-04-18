@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
     CButton,
     CCard,
@@ -34,10 +34,12 @@ import {
     CDataTable,
   } from '@coreui/react'
   import CIcon from '@coreui/icons-react'
+  import {Form,Button,Table,Row,Col,Modal} from 'react-bootstrap';
+  import {LinkContainer} from 'react-router-bootstrap'
   const usersData=[
-    {id:1,name:"4th",numberOfSections:10,totalStudents:30,teacher:'John Kadahizi',addedAt:"2021-04-15",action:'Edit,Delete'},
-    {id:2,name:"3rd",numberOfSections:3,totalStudents:10,teacher:'John Kadahizi',addedAt:"2021-04-15",action:'Edit,Delete'},
-    {id:3,name:"2nd",numberOfSections:2,totalStudents:150,teacher:'John Kadahizi',addedAt:"2021-04-15",action:'Edit,Delete'},
+    {id:1,name:"4th",section:'MP',totalStudents:30,addedAt:"2021-04-15",action:'Edit,Delete'},
+    {id:2,name:"3rd",section:'BC',totalStudents:10,addedAt:"2021-04-15",action:'Edit,Delete'},
+    {id:3,name:"2nd",section:'',totalStudents:150,addedAt:"2021-04-15",action:'Edit,Delete'},
     
 ]
 const getBadge = status => {
@@ -51,9 +53,15 @@ const getBadge = status => {
 }
 const fields = ['id','name','numberOfSections','totalStudents',"teacher","addedAt","action"]
 const NewClass = () => {
+    const[showForm,setShowForm] = useState(false)
     return (
         <>
- <h1 className="text-center">Add new class</h1>
+         <button 
+    onClick={()=>setShowForm(!showForm)}
+    className="btn btn-success btn-lg pull-right mb-2">{showForm?"Hide Form":"Add new class"}</button>
+        {
+            showForm&&<>
+            <h1 className="text-center">Add new class</h1>
         <CRow>
           
         <CCol xs="12" md="">
@@ -61,14 +69,6 @@ const NewClass = () => {
             
             <CCardBody>
               <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
-                {/* <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Static</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <p className="form-control-static">Username</p>
-                  </CCol>
-                </CFormGroup> */}
                 <CFormGroup row>
                   <CCol md="3">
                     <CLabel htmlFor="text-input">Class Name</CLabel>
@@ -106,39 +106,68 @@ const NewClass = () => {
         
        
       </CRow>
+            </>
+
+        }
+     
+ 
      
       <CRow>
 
+      <CCol xs="12" lg="12">
+    
+   
 
-<CCol xs="12" lg="12">
+  
 
-  <CCard>
-  <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
- <CInput id="text-input" name="text-input" placeholder="Search class by name" />
-  </CForm>
-  <h1 className="text-center pt-5">All Classes</h1>
-    <CCardBody>
-    <CDataTable
-      items={usersData}
-      fields={fields}
-      striped
-      itemsPerPage={5}
-      pagination
-      scopedSlots = {{
-        'status':
-          (item)=>(
-            <td>
-              <CBadge color={getBadge(item.status)}>
-                {item.status}
-              </CBadge>
-            </td>
-          )
-
-      }}
-    />
-    </CCardBody>
-  </CCard>
-</CCol>
+    <h1 className="text-center pt-5">All Classes</h1>
+    <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
+   <CInput id="text-input" name="text-input" placeholder="Search section by name" />
+    </CForm>
+            <Table striped bordered hover responsive className="table-sm">
+        <thead className="bg-info">
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>SECTION</th>
+                <th>TOTAL STUDENTS</th>
+                <th>ADDED AT</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+        {usersData&&usersData.map(product=>(
+        <tr key={product.id}>
+                      <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.section} {' '} <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
+                           <a className="btn-sm text-success text-right">manage</a>
+                        </LinkContainer></td>
+                    <td>{product.totalStudents}</td>
+                  
+                    <td>{product.addedAt}</td>
+                    
+                    
+                    <td>
+                        <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
+                            <Button variant="success" className="btn-sm">
+                            <i className="fas fa-edit"></i>
+                            Edit
+                            </Button>
+                        </LinkContainer>
+                        <Button variant="danger" className="btn-sm">
+                            <i className="fas fa-trash"></i>
+                            Delete
+                            </Button>
+  
+                    </td>
+  
+                </tr>))
+  }
+        </tbody>
+  
+    </Table>
+  </CCol>
 </CRow>
 
       </>

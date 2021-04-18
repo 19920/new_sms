@@ -1,6 +1,33 @@
 import React from 'react';
+import AllStaff from './views/base/school/allStaff';
+import AssignAdmin from './views/base/school/AssignAdmin';
+import AssignTeacherToSubject from './views/base/school/AssignTeacherToSubject';
+import Attendance from './views/base/school/Attendance';
+import BulkAdmission from './views/base/school/BulkAdmission';
+import Events from './views/base/school/Events';
+import ExaminationDashboard from './views/base/school/ExaminationDashboard';
+import FeeTypes from './views/base/school/FeeTypes';
+import HomeWorks from './views/base/school/HomeWorks';
+import IncomeDashbord from './views/base/school/IncomeDashbord';
+import LiveClass from './views/base/school/LiveClass';
 import NewClass from './views/base/school/newClasse';
+import NewExam from './views/base/school/NewExam';
+import NewHomeWork from './views/base/school/NewHomeWork';
+import NewNoticeBoard from './views/base/school/NewNoticeBoard';
 import NewSection from './views/base/school/newSection';
+import NewStaff from './views/base/school/newStaff';
+import NewStudent from './views/base/school/NewStudent';
+import NewStudyMaterial from './views/base/school/NewStudyMaterial';
+import AllSubject from './views/base/school/newSubject';
+import NoticeBoard from './views/base/school/NoticeBoard';
+import Schools from './views/base/school/Schools';
+import SchoolSettings from './views/base/school/SchoolSettings';
+import SingleStudentLeave from './views/base/school/SingleStudentLeave';
+import StudentDashbord from './views/base/school/StudentDashboard';
+import StudentLeaves from './views/base/school/StudentLeave';
+import Students from './views/base/school/Students';
+import StudyMaterials from './views/base/school/StudyMaterials';
+import TimeTable from './views/base/school/timetable';
 
 const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 const Tables = React.lazy(() => import('./views/base/tables/Tables'));
@@ -84,7 +111,34 @@ const routes = [
   { path: '/schools/newSchool', exact: true,  name: 'New School', component: NewSchool },
   { path: '/schools/NewClass', exact: true,  name: 'New Class', component: NewClass },
   { path: '/schools/sections', exact: true,  name: 'New Section', component: NewSection },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User }
+  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+  { path: '/schools/staff', exact: true, name: 'New Staff', component: NewStaff },
+  { path: '/all-schools', exact: true, name: 'All Schools', component: Schools },
+  { path: '/schools/allstaff', exact: true, name: 'All Staff', component: AllStaff },
+  { path: '/accounting/dashbord', exact: true, name: 'All Staff', component: IncomeDashbord },
+  { path: '/accounting/feetypes', exact: true, name: 'All Fee Types', component: FeeTypes },
+  { path: '/student/dashboard', exact: true, name: 'All Fee Types', component: StudentDashbord },
+  { path: '/student/admission', exact: true, name: 'New Student', component: NewStudent },
+  { path: '/students', exact: true, name: 'All Students', component: Students },
+  { path: '/students/bulkadmission', exact: true, name: 'Bulk Admission', component: BulkAdmission },
+  { path: '/school/assign-owner', exact: true, name: 'Assign owner', component: AssignAdmin },
+  { path: '/school/all-subjects', exact: true, name: 'All subjects', component: AllSubject },
+  { path: '/school/class-timetable', exact: true, name: 'All subjects', component: TimeTable },
+  { path: '/school/teachers-timetable', exact: true, name: 'All subjects', component: AssignTeacherToSubject },
+  { path: '/school/class-attendances', exact: true, name: 'My Class Attendances', component: Attendance },
+  { path: '/school/stuent-leaves', exact: true, name: 'Student Leaves', component: StudentLeaves },
+  { path: '/school/student-leaves/id', exact: true, name: 'Student Leave', component: SingleStudentLeave },
+  { path: '/school/study-materials', exact: true, name: 'Study Materials', component: StudyMaterials },
+  { path: '/school/new-study-material', exact: true, name: 'Study Materials', component: NewStudyMaterial },
+  { path: '/school/homeworks', exact: true, name: 'Study Materials', component: HomeWorks },
+  { path: '/school/new-homework', exact: true, name: 'Study Materials', component: NewHomeWork },
+  { path: '/school/class-noticeboard', exact: true, name: 'Class NoticeBoard', component: NoticeBoard },
+  { path: '/school/new-class-notice', exact: true, name: 'New Class NoticeBoard', component: NewNoticeBoard },
+  { path: '/school/events', exact: true, name: 'All Events', component: Events },
+  { path: '/school/live-classes', exact: true, name: 'Live Class', component: LiveClass },
+  { path: '/school/settings', exact: true, name: 'Live Class', component: SchoolSettings },
+  { path: '/examination/dashboard', exact: true, name: 'Live Class', component: ExaminationDashboard },
+  { path: '/students/new-exam', exact: true, name: 'Live Class', component: NewExam },
 ];
 
 export default routes;

@@ -25,16 +25,16 @@ const Cards = () => {
       <CRow>
         <CCol xs="12" sm="6" md="4">
           <CCard>
-            <CCardHeader>
-              School Name
+            <CCardHeader style={{backgroundColor:'green',color:'white'}}>
+              IFAK(INSTITUT DE FORMATION APOSTOLIQUE DE KIMIHURURA)
               <DocsLink name="CCard"/>
             </CCardHeader>
-            <CCardBody>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-              laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-              ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            <CCardBody style={{backgroundColor:'grey'}}>
+             <p className="text-white">Phone:0730893622</p>
+             <p className="text-white">Total Classes:40</p>
+             <p className="text-white">Status:Active</p>
             </CCardBody>
-            <CCardFooter>View</CCardFooter>
+            <CCardFooter style={{backgroundColor:'blue',color:'white'}}>View</CCardFooter>
           </CCard>
         </CCol>
        
