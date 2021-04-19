@@ -3,6 +3,7 @@ import AllStaff from './views/base/school/allStaff';
 import AssignAdmin from './views/base/school/AssignAdmin';
 import AssignTeacherToSubject from './views/base/school/AssignTeacherToSubject';
 import Attendance from './views/base/school/Attendance';
+import Login from './views/base/school/auth/Login';
 import BulkAdmission from './views/base/school/BulkAdmission';
 import Events from './views/base/school/Events';
 import ExaminationDashboard from './views/base/school/ExaminationDashboard';
@@ -69,7 +70,7 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  //{ path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
@@ -139,6 +140,7 @@ const routes = [
   { path: '/school/settings', exact: true, name: 'Live Class', component: SchoolSettings },
   { path: '/examination/dashboard', exact: true, name: 'Live Class', component: ExaminationDashboard },
   { path: '/students/new-exam', exact: true, name: 'Live Class', component: NewExam },
+  { path: '/login', exact: true, name: 'Login', component: Login },
 ];
 
 export default routes;

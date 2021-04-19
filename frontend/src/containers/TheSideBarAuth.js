@@ -1,5 +1,5 @@
 import React from 'react'
-import {_nav,isSuperUser,isTransportAdmin,isUseTeacher,isLibraryAdmin} from './_nav'
+import {auth} from './_nav'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CCreateElement,
@@ -18,22 +18,10 @@ import CIcon from '@coreui/icons-react'
 // sidebar nav config
 
 
-const TheSidebar = ({user}) => {
+const ThesideBarAuth = ({user}) => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
-  let navigation
-   if(user&&user.role=="Teacher"){
-     navigation = isUseTeacher
-   }else if(user&&user.role=="Library"){
-     navigation = isLibraryAdmin
-   }else if(user&&user.role=="SuperUser"){
-    navigation = isSuperUser
-  }else if(user&&user.role=="isTransportAdmin"){
-    navigation = isTransportAdmin
-  }else if(user&&user.role=="Admin"){
-    navigation = _nav
-  }
-
+  let navigation = auth
    return(
     <CSidebar
     show={show}
@@ -69,4 +57,4 @@ const TheSidebar = ({user}) => {
   
 }
 
-export default React.memo(TheSidebar)
+export default React.memo(ThesideBarAuth)

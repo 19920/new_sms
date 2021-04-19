@@ -1,4 +1,4 @@
-const mongoose =require('mongoose');
+import mongoose from 'mongoose'
 
 const connectDb = async()=>{
     try {
@@ -13,4 +13,4 @@ const connectDb = async()=>{
         process.exit(1)
     }
 }
-module.exports =connectDb
+export default connectDb

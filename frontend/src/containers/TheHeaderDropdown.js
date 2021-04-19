@@ -1,4 +1,6 @@
-import React from 'react'
+import React ,{useEffect}from 'react'
+import {useDispatch,useSelector} from 'react-redux'
+
 import {
   CBadge,
   CDropdown,
@@ -8,8 +10,23 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { logoutUser } from 'src/views/base/school/redux/actions/userActions'
 
 const TheHeaderDropdown = () => {
+  const dispatch=useDispatch()
+ 
+  const loggedInuser = useSelector(state=>state.user);
+  const {loading,error,userInfo} = loggedInuser
+  
+  // useEffect(()=>{
+  //     if(userInfo){
+  //         history.push('/login')
+  //     }
+  // },[userInfo])
+  const logout=()=>{
+   dispatch(logoutUser())
+   //history.push('/login')
+  }
   return (
     <CDropdown
       inNav
@@ -80,9 +97,9 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem onClick={logout}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+         Loogout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
