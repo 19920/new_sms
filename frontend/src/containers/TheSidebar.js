@@ -20,7 +20,7 @@ import CIcon from '@coreui/icons-react'
 
 const TheSidebar = ({user}) => {
   const dispatch = useDispatch()
-  const show = useSelector(state => state.sidebarShow)
+  const {sidebarShow} = useSelector(state => state.sidebarShow)
   let navigation
    if(user&&user.role=="Teacher"){
      navigation = isUseTeacher
@@ -36,7 +36,7 @@ const TheSidebar = ({user}) => {
 
    return(
     <CSidebar
-    show={show}
+    show={sidebarShow}
     onShowChange={(val) => dispatch({type: 'set', sidebarShow: val })}
   >
     {/* <CSidebarBrand className="d-md-down-none" to="/">

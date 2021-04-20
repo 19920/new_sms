@@ -7,6 +7,7 @@ import User from '../models/User.js';
 //@desc Public
 const getAllSchools=asyncHandler(async(req,res)=>{
     const user = await User.findById(req.user.id)
+    //console.log("user in getting schools",user)
     const pageSize=10
     const page = Number(req.query.pageNumber)||1
     const keyword = req.query.keyword?{
@@ -63,25 +64,48 @@ const createSchool=asyncHandler(async(req,res)=>{
         name,
         type,
         description,
-        schoolPhoto,
-        registrationNumber,
-        phonenumber,
-        ownerPhoneNumber,
+        status,
         email,
+        numberOfSections,
+        numberOfStudents,
+        numberOfemployees,
+        numberOfClasses,
+        registrationNumber,
+        registrationdate,
+        schoolPhoto,
+        admissionBaseNumber,
+        admissionBasePadding,
+        admissionPrefix,
+        phonenumber,
+        enrollmentBaseNumber,
+        enrollmentPrefix,
         address,
-        numberOfemployees
+        ownerEmail,
+        ownerPhoneNumber
     } = req.body
     const createdSchool = new School({
         name:name,
         type:type,
         description:description,
-        schoolPhoto:schoolPhoto,
-        registrationNumber:registrationNumber,
-        phonenumber:phonenumber,
-        email:email,
+        status:status,
+        numberOfSections:numberOfSections,
+        numberOfStudents:numberOfStudents,
         numberOfemployees:numberOfemployees,
-        ownerPhoneNumber:ownerPhoneNumber,
+        numberOfClasses:numberOfClasses,
+        registrationNumber:registrationNumber,
+        registrationdate:registrationdate,
+        schoolPhoto:schoolPhoto,
+        admissionBaseNumber:admissionBaseNumber,
+        admissionBasePadding:admissionBasePadding,
+        admissionPrefix:admissionPrefix,
+        phonenumber:phonenumber,
+        ownerPhoneNumber:phonenumber,
+        enrollmentBaseNumber:enrollmentBaseNumber,
+        enrollmentPrefix:enrollmentPrefix,
         address:address,
+        email:email,
+        ownerEmail:ownerEmail,
+        
         user:req.user._id
     })
     const newSchoolcreated = await createdSchool.save()

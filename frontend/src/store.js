@@ -3,7 +3,7 @@ import {createStore,combineReducers,applyMiddleware} from 'redux'
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { userReducer,changeState } from './views/base/school/redux/reducers/userReducer';
-
+import {schoolReducer,createschoolReducer,deleteschoolReducer,updateschoolReducer} from './views/base/school/redux/reducers/schoolReducer'
 
 const userInfoInStorage= localStorage.getItem('userInfo')?JSON.parse(localStorage.getItem('userInfo')):null
 
@@ -11,8 +11,13 @@ const userInfoInStorage= localStorage.getItem('userInfo')?JSON.parse(localStorag
 
 
 const reducer=combineReducers({
-  changeState:changeState,
-  user:userReducer
+  sidebarShow:changeState,
+  user:userReducer,
+  schools:schoolReducer,
+  createschoolReducer:createschoolReducer,
+  deleteschoolReducer:deleteschoolReducer,
+  updateschoolReducer:updateschoolReducer
+
 })
 const initialState = {
   user:{userInfo:userInfoInStorage},

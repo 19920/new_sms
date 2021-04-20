@@ -56,6 +56,50 @@ const SchoolSchema = new mongoose.Schema({
         type:Number,
         required:[true,"Number of employees is required"]
     },
+    numberOfStudents:{
+        type:Number,
+        required:[true,"Number of students is required"]
+
+    },
+    numberOfSections:{
+        type:Number,
+       
+
+    },
+    category:{
+        type:String,
+        enum:["Public","Private"],
+        default:"Private"
+    },
+    numberOfClasses:{
+        type:Number,
+       
+
+    },
+    admissionBaseNumber:{
+        type:String,
+        
+    },
+    enrollmentPrefix:{
+        type:String
+    },
+    enrollmentBaseNumber:{
+        type:String,
+        
+    },
+    admissionPrefix:{
+        type:String
+    },
+    admissionBasePadding:{
+        type:String,
+        
+    },
+    status:{
+        type:String,
+        enum:["Active","Inactive"],
+        default:"Active"
+        
+    },
     address:{
         type:String,
         required:[true,"Please add Saloon address"]
