@@ -1,8 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {Form,Button,Table,Row,Col,Modal} from 'react-bootstrap';
 import { CRow,CCol ,CInput,CForm, CButton} from '@coreui/react';
 import CIcon from '@coreui/icons-react'
 import {LinkContainer} from 'react-router-bootstrap'
+import { useDispatch,useSelector } from 'react-redux';
+import { getSchoolsUsers,assignUserToSchool } from './redux/actions/schoolActions';
+
 const usersData=[
     {id:1,name:"John Kadahizi",userName:"JB",email:"jkadahizi@gmail.com",assigendBy:"Kadahizi"},
     {id:2,name:"Daniella Kadahizi",userName:"JB",email:"jkadahizi@gmail.com",assigendBy:"Kadahizi"},
@@ -10,14 +13,44 @@ const usersData=[
   
     
   ]
-const AssignAdmin = () => {
+const AssignAdmin = ({match,history}) => {
+    const schoolId = match.params.id
+    const dispatch= useDispatch()
+    console.log("schoolId",schoolId)
     const [email,setEmail] = useState('')
+    const [firstName,setFirstName] = useState('')
+    const [lastName,setLastName] = useState('')
+    const [role,setRole] = useState('')
     const [password,setPassword] = useState('')
     const [gender,setGender] = useState('')
     const [isExistingUser,setexistingUser] = useState(false)
     const [nameOfClasse,setClassName] = useState('')
-    const [isnewuser,setNewUser] = useState(true)
+    const [isnewuser,setNewUser] = useState(false)
     const [isparentnewuser,setParentnewuser] = useState('')
+    const schoolUsers = useSelector(state=>state.schoolUsers)
+    const {loading,error,users} = schoolUsers
+    const loggedInuser = useSelector((state)=>state.user);
+    const {userInfo} = loggedInuser
+    const assignedUserInfo=useSelector((state)=>state.assignedUserInfo)
+    const {loading:assigningLoading,success,assignedUser} = assignedUserInfo
+    useEffect(()=>{
+        if(!userInfo){
+         history.push('/login')
+        }
+        if(success){
+            setEmail('')
+            setFirstName('')
+            setLastName('')
+            setPassword('')
+            dispatch(getSchoolsUsers(schoolId)) 
+        }
+       dispatch(getSchoolsUsers(schoolId))
+    },[dispatch,userInfo,success])
+    console.log("users in assignadmin",users)
+    const onSumbitUser=(e)=>{
+     e.preventDefault()
+     dispatch(assignUserToSchool(schoolId,email,password,firstName,lastName,role))
+    }
     return (
         <>  
         <Row>
@@ -27,7 +60,7 @@ const AssignAdmin = () => {
             </LinkContainer>
             </Col>
             <Col xs={12} md={4} lg={4}>
-            <h1 className="text-center">New Super user to school</h1>
+            <h1 className="text-center">Add new user to school</h1>
             </Col>
             <Col xs={12} md={4} lg={4}>
            
@@ -77,21 +110,28 @@ const AssignAdmin = () => {
            <Form.Group controlId='firstName'>
                        <Form.Label><span className="text-danger">*</span>Firstname</Form.Label>
                        <Form.Control  
-                        style={{height:50}} type="text" placeholder="Enter first name" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                        style={{height:50}} type="text" placeholder="Enter first name" value={firstName} onChange={(e)=>setFirstName(e.target.value)}>
                        </Form.Control>
                    </Form.Group>
                    <Form.Group controlId='lastName'>
                        <Form.Label><span className="text-danger">*</span>lastname</Form.Label>
                        <Form.Control  
-                        style={{height:50}} type="text" placeholder="Enter lastname" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                        style={{height:50}} type="text" placeholder="Enter lastname" value={lastName} onChange={(e)=>setLastName(e.target.value)}>
                        </Form.Control>
                    </Form.Group>
-               <Form.Group controlId='username'>
-                       <Form.Label><span className="text-danger">*</span>Username</Form.Label>
-                       <Form.Control  
-                        style={{height:50}} type="text" placeholder="Enter username" value={email} onChange={(e)=>setEmail(e.target.value)}>
-                       </Form.Control>
+                   <Form.Group controlId='username'>
+                   <Form.Label><span className="text-danger">*</span>Role</Form.Label>
+                   <Form.Control as="select" type="text" value={role} onChange={(e)=>setRole(e.target.value)}>
+                      <option value="Teacher">Teacher</option>
+                       <option value="Admin">Admin</option>
+                       <option value="Librarian">Librarian</option>
+                       <option value="Economist">Economist</option>
+                       <option value="TransportAdmin">TransportAdmin</option>
+                       <option value="Student">Student</option>
+                       <option value="Parent">Parent</option>
+                   </Form.Control>
                    </Form.Group>
+                
    
                    <Form.Group controlId='email'>
                        <Form.Label><span className="text-danger">*</span>Login Email</Form.Label>
@@ -100,7 +140,7 @@ const AssignAdmin = () => {
                    </Form.Group>
                    <Form.Group controlId='password'>
                        <Form.Label><span className="text-danger">*</span>Password</Form.Label>
-                       <Form.Control type="password" placeholder="Enter password" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                       <Form.Control type="password" placeholder="Enter password" value={password} onChange={(e)=>setPassword(e.target.value)}>
                        </Form.Control>
                    </Form.Group>
                </Col>
@@ -129,36 +169,37 @@ const AssignAdmin = () => {
         <Row>
    
             <Col xs={12} md={12} lg={12}>
-            <Button variant="success" style={{width:200,marginBottom:30,height:50}}>Assign Super User</Button>
+            <Button  onClick={(e)=>onSumbitUser(e)} variant="success" style={{width:200,marginBottom:30,height:50}}>Assign Super User</Button>
             </Col>
             
         </Row>
         <hr></hr>
+       {users&&users.length>0?
         <CRow>
         <CCol xs="12" lg="12">
-    <h1 className="text-center pt-5">All Super Users </h1>
+    <h1 className="text-center pt-5">All School Users </h1>
     <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
    <CInput id="text-input" name="text-input" placeholder="Search user by name" />
     </CForm>
-            <Table striped bordered hover responsive className="table-sm">
+          {assigningLoading?<h5>loading....</h5> :<Table striped bordered hover responsive className="table-sm">
         <thead className="bg-info">
             <tr>
                 <th>ID</th>
-                <th>NAME</th>
-                <th>USERNAME</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
                 <th>EMAIL</th>
-                <th>ASSIGNED BY</th>
+                <th>ROLE</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-        {usersData&&usersData.map(product=>(
+        {users&&users.sort((a,b)=>new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime()).map(product=>(
         <tr key={product.id}>
-                      <td>{product.id}</td>
-                    <td>{product.name}</td>
-                    <td>{product.userName}</td>
+                      <td>{product._id}</td>
+                    <td>{product.firstName}</td>
+                    <td>{product.lastName}</td>
                     <td>{product.email}</td>
-                    <td>{product.assigendBy}</td>
+                    <td>{product.role}</td>
                     <td>
                     <LinkContainer to={`/admin/products/${"product._id"}/edit`}>
                             <Button variant="success" className="btn-sm">
@@ -183,9 +224,17 @@ const AssignAdmin = () => {
   }
         </tbody>
   
-    </Table>
+    </Table>}
   </CCol>
-        </CRow>
+  </CRow>
+       :
+       <CRow>
+        <CCol xs="12" lg="12">
+    <h1 className="text-center pt-5">No School users available </h1>
+    </CCol>
+    </CRow>
+       }
+       
         </>
     )
 }

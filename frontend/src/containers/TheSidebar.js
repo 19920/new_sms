@@ -24,11 +24,11 @@ const TheSidebar = ({user}) => {
   let navigation
    if(user&&user.role=="Teacher"){
      navigation = isUseTeacher
-   }else if(user&&user.role=="Library"){
+   }else if(user&&user.role=="Librarian"){
      navigation = isLibraryAdmin
    }else if(user&&user.role=="SuperUser"){
     navigation = isSuperUser
-  }else if(user&&user.role=="isTransportAdmin"){
+  }else if(user&&user.role=="TransportAdmin"){
     navigation = isTransportAdmin
   }else if(user&&user.role=="Admin"){
     navigation = _nav

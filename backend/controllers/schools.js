@@ -1,4 +1,5 @@
 import asyncHandler from '../middleware/asyncHandler.js'
+import ClassModel from '../models/Class.js';
 import School from '../models/School.js';
 import User from '../models/User.js';
 
@@ -195,6 +196,82 @@ const getTopSchools=asyncHandler(async(req,res)=>{
     res.status(201).json({success:true,data:{}})
     
 })
+const assignUserToSchool = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const {firstName,lastName,email,role,password} = req.body;
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        role,
+        password,
+        school:school._id,
+        createdBy:req.user.id
+    })
+    sentTokenResponse(user,200,res)
+})
+const addClassToSchool=asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.user.school)
+    const {name,description,section,numberOfStudents} = req.body;
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    const classdata = await ClassModel.create({
+        name,
+        description,
+        school:school._id,
+        section:section,
+        numberOfStudents:numberOfStudents,
+        addedBy:req.user.id
+    })
+    res.status(201).json(classdata)
+    
+})
+const sentTokenResponse =  (newUser,statusCode,res)=>{
+    const options = {
+        expires:new Date(Date.now() +process.env.JWT_COOKIE_EXP*24*60*60*5000),
+        httpOnly:true
+    }
+    if(process.env.NODE_ENV =="production"){
+        options.secure=true
+    }
+    const user={
+        firstName:newUser.firstName,
+        lastName:newUser.lastName,
+        role:newUser.role,
+        createdAt:newUser.createdAt,
+        password:newUser.password,
+        school:newUser.school,
+        
+    }
+    res.status(statusCode).json({success:true,user})
+}
+const getallSchoolUsers = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const pageSize=10
+    const page = Number(req.query.pageNumber)||1
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    const users = await User.find({school:school._id}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
+    const count = users.length
+    res.status(200).json({count,page,pages:Math.ceil(count/pageSize),users})
+})
+const getallSchoolClasses = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const pageSize=10
+    const page = Number(req.query.pageNumber)||1
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.user.school}`,400));
+    }
+    const classes = await ClassModel.find({school:school._id}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
+    const count = await ClassModel.countDocuments()
+    res.status(200).json({count,page,pages:Math.ceil(count/pageSize),classes})
+
+})
  export {
      getAllSchools,
      getSchool,
@@ -203,5 +280,9 @@ const getTopSchools=asyncHandler(async(req,res)=>{
      createSchool,
      addReviewToSchool,
      getTopSchools,
-     removeSchool
+     removeSchool,
+     assignUserToSchool,
+     getallSchoolUsers,
+     addClassToSchool,
+     getallSchoolClasses
  }

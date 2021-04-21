@@ -122,7 +122,7 @@ const routes = [
   { path: '/student/admission', exact: true, name: 'New Student', component: NewStudent },
   { path: '/students', exact: true, name: 'All Students', component: Students },
   { path: '/students/bulkadmission', exact: true, name: 'Bulk Admission', component: BulkAdmission },
-  { path: '/school/assign-owner', exact: true, name: 'Assign owner', component: AssignAdmin },
+  { path: '/school/:id/assign-user', exact: true, name: 'Assign owner', component: AssignAdmin },
   { path: '/school/all-subjects', exact: true, name: 'All subjects', component: AllSubject },
   { path: '/school/class-timetable', exact: true, name: 'All subjects', component: TimeTable },
   { path: '/school/teachers-timetable', exact: true, name: 'All subjects', component: AssignTeacherToSubject },

@@ -350,17 +350,7 @@ const _nav =  [
         name: 'My School',
         to: '/schools/myschool',
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'All Schools',
-        to: '/all-schools',
-      },
       
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'New School',
-        to: '/schools/newSchool',
-      },
       {
         _tag: 'CSidebarNavItem',
         name: 'Classes',

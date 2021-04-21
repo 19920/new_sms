@@ -71,7 +71,7 @@ const Schools = ({history}) => {
                     
 
                     <td>
-                    <LinkContainer to={`/school/assign-owner`}>
+                    <LinkContainer to={`/school/${product._id}/assign-user`}>
                            <a className="btn-sm text-success text-right">Assign admins</a>
                         </LinkContainer>
                     </td>

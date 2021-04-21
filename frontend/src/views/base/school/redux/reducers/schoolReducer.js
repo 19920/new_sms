@@ -11,7 +11,19 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
     SCHOOL_ADD_REVIEW_REQUEST_SUCCESS,
     TOP_SCHOOLS_REQUEST,
     TOP_SCHOOLS_REQUEST_SUCCESS,
-    TOP_SCHOOLS_REQUEST_FAIL
+    TOP_SCHOOLS_REQUEST_FAIL,
+    GET_SCHOOL_USERS_REQUEST,
+    GET_SCHOOL_USERS_REQUEST_SUCCESS,
+    GET_SCHOOL_USERS_REQUEST_FAIL,
+    ASSIGN_USER_TO_SCHOOL_REQUEST,
+    ASSIGN_USER_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_USER_TO_SCHOOL_REQUEST_FAIL,
+    GET_SCHOOL_CLASSES_REQUEST,
+    GET_SCHOOL_CLASSES_REQUEST_SUCCESS,
+    GET_SCHOOL_CLASSES_REQUEST_FAIL,
+    ASSIGN_CLASS_TO_SCHOOL_REQUEST,
+    ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL
   } from '../constants/schoolTypes'
   export const schoolReducer=(state={schools:[]},action)=>{
       const{type,payload} = action
@@ -26,7 +38,33 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
             return state;
     }
   }
-  
+  export const schoolUsersReducer=(state={users:[]},action)=>{
+    const{type,payload} = action
+  switch(type){
+      case GET_SCHOOL_USERS_REQUEST:
+          return { loading:true,users:[]}
+      case GET_SCHOOL_USERS_REQUEST_SUCCESS:
+          return{loading:false,users:payload,pages:payload.pages,page:payload.page}
+          case GET_SCHOOL_USERS_REQUEST_FAIL:
+            return{loading:false,error:payload}
+      default:
+          return state;
+  }
+}
+export const schoolClassesReducer=(state={classes:[]},action)=>{
+  const{type,payload} = action
+switch(type){
+    case GET_SCHOOL_CLASSES_REQUEST:
+        return { loading:true,users:[]}
+    case GET_SCHOOL_CLASSES_REQUEST_SUCCESS:
+        return{loading:false,classes:payload,pages:payload.pages,page:payload.page}
+        case GET_SCHOOL_CLASSES_REQUEST_FAIL:
+          return{loading:false,error:payload}
+    default:
+        return state;
+}
+}
+
   export const deleteschoolReducer=(state={},action)=>{
     const{type,payload} = action
   switch(type){
@@ -72,7 +110,34 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
           return state;
   }
   }
-  
+  export const assignUserToSchoolReducer=(state={},action)=>{
+    const{type,payload} = action
+  switch(type){
+      case ASSIGN_USER_TO_SCHOOL_REQUEST:
+          return { loading:true,}
+     case ASSIGN_USER_TO_SCHOOL_REQUEST_SUCCESS:
+          return{loading:false,success:true,assignedUser:payload}
+          case ASSIGN_USER_TO_SCHOOL_REQUEST_FAIL:
+            return{loading:false,error:payload,success:false}
+      default:
+          return state;
+  }
+}
+
+export const assignClassToSchoolReducer=(state={},action)=>{
+  const{type,payload} = action
+switch(type){
+    case ASSIGN_CLASS_TO_SCHOOL_REQUEST:
+        return { loading:true,}
+   case ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS:
+        return{loading:false,success:true,assignedClass:payload}
+        case ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL:
+          return{loading:false,error:payload,success:false}
+    default:
+        return state;
+}
+}
+
 //   export const addproductreviewReducer=(state={},action)=>{
 //     const{type,payload} = action
 //   switch(type){

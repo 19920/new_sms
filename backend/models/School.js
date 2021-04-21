@@ -16,15 +16,15 @@ const SchoolSchema = new mongoose.Schema({
     },
     description:{
         type:String,
-        maxlength:[500,"Name can not be more than 150 characters"]
+        maxlength:[500,"Description can not be more than 150 characters"]
     },
     registrationNumber:{
         type:String,
-        unique:[true,"There is already a saloon with same registration number"],
+        unique:[true,"There is already a School with same registration number"],
     },
     phonenumber:{
         type:String,
-        required:[true,"The saloon number is required"]
+        required:[true,"The School number is required"]
        
     },
     email:{
