@@ -21,6 +21,7 @@ import { login } from '../redux/actions/userActions'
 const Login = ({history}) => {
     const [email,setEmail] = useState('dkadahizi@gmail.com')
     const [password,setPassword] = useState('Kadahizi1992')
+    const [loginError,setLoginError] = useState('')
   const dispatch = useDispatch()
 const loggedInuser = useSelector(state=>state.user);
 const {loading,error,userInfo} = loggedInuser
@@ -29,7 +30,10 @@ useEffect(()=>{
     if(userInfo){
         history.push('/')
     }
-},[userInfo])
+    if(error){
+      setLoginError('Invalid creditials')
+    }
+},[userInfo,error])
 
 
     const onSubmitHandler=(e)=>{
@@ -40,13 +44,14 @@ useEffect(()=>{
 
     }
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
+    <div className="c-app c-default-layout flex-row align-items-center bg-dark">
       <CContainer>
        {loading?<h2 className="text-small">Loading.....</h2>: <CRow className="justify-content-center">
           <CCol sm="12" md="9" lg="9">
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
+                  {loginError&&<h2 className="text-small text-danger">{loginError}</h2>}
                 <h2 className="text-small">Welcome To School managment system(SMS)</h2>
                   <CForm>
                     <h3>Login</h3>
@@ -57,7 +62,11 @@ useEffect(()=>{
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Email" autoComplete="username" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                      <CInput type="text" placeholder="Email" autoComplete="username" value={email} 
+                      onChange={(e)=>{
+                        setEmail(e.target.value)
+                        setLoginError('')
+                      }} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -65,7 +74,11 @@ useEffect(()=>{
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+                      <CInput type="password" placeholder="Password" autoComplete="current-password" value={password} 
+                      onChange={(e)=>{
+                        setPassword(e.target.value)
+                        setLoginError('')
+                      }} />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
