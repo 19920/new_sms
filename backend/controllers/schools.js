@@ -1,7 +1,10 @@
 import asyncHandler from '../middleware/asyncHandler.js'
 import ClassModel from '../models/Class.js';
 import School from '../models/School.js';
+import SectionModel from '../models/Section.js';
+import SubjectModel from '../models/Subject.js';
 import User from '../models/User.js';
+import ErrorResponse from '../utils/errorResponse.js';
 
 //@desc get all Schools
 //@route GET api/Schools
@@ -230,6 +233,36 @@ const addClassToSchool=asyncHandler(async(req,res,next)=>{
     res.status(201).json(classdata)
     
 })
+const addSectionToSchool=asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.user.school)
+    const {name,description,} = req.body;
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    const sectiondata = await SectionModel.create({
+        name,
+        description,
+        school:school._id,
+        addedBy:req.user.id
+    })
+    res.status(201).json(sectiondata)
+    
+})
+const addSubjectSchool=asyncHandler(async(req,res,next)=>{
+    console.log("addSubjectSchool",req.body)
+    const school = await School.findById(req.user.school)
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    if(!req.body.name){
+        return res.status(400).json({message:"Name is required"})
+    }
+    req.body.school = school._id;
+    req.body.addedBy = req.user.id;
+    const subjectdata = await SubjectModel.create(req.body)
+    res.status(201).json(subjectdata)
+    
+})
 const sentTokenResponse =  (newUser,statusCode,res)=>{
     const options = {
         expires:new Date(Date.now() +process.env.JWT_COOKIE_EXP*24*60*60*5000),
@@ -260,6 +293,17 @@ const getallSchoolUsers = asyncHandler(async(req,res,next)=>{
     const count = users.length
     res.status(200).json({count,page,pages:Math.ceil(count/pageSize),users})
 })
+const getallSchoolTeachers = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const pageSize=10
+    const page = Number(req.query.pageNumber)||1
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    const users = await User.find({$and:[{school:school._id},{role:'Teacher'}]}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
+    const count = users.length
+    res.status(200).json({count,page,pages:Math.ceil(count/pageSize),users})
+})
 const getallSchoolClasses = asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.params.id)
     const pageSize=10
@@ -270,6 +314,31 @@ const getallSchoolClasses = asyncHandler(async(req,res,next)=>{
     const classes = await ClassModel.find({school:school._id}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
     const count = await ClassModel.countDocuments()
     res.status(200).json({count,page,pages:Math.ceil(count/pageSize),classes})
+
+})
+const getallSchoolSections = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const pageSize=10
+    const page = Number(req.query.pageNumber)||1
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.user.school}`,400));
+    }
+    const sections = await SectionModel.find({school:school._id}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
+    const count = await SectionModel.countDocuments()
+    res.status(200).json({count,page,pages:Math.ceil(count/pageSize),sections})
+
+})
+
+const getallSchoolSubjects = asyncHandler(async(req,res,next)=>{
+    const school = await School.findById(req.params.id)
+    const pageSize=10
+    const page = Number(req.query.pageNumber)||1
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.user.school}`,400));
+    }
+    const subjects = await SubjectModel.find({school:school._id}).sort({createdAt:-1}).limit(pageSize).skip(pageSize*(page-1))
+    const count = await SubjectModel.countDocuments()
+    res.status(200).json({count,page,pages:Math.ceil(count/pageSize),subjects})
 
 })
  export {
@@ -284,5 +353,11 @@ const getallSchoolClasses = asyncHandler(async(req,res,next)=>{
      assignUserToSchool,
      getallSchoolUsers,
      addClassToSchool,
-     getallSchoolClasses
+     addSectionToSchool,
+     addSubjectSchool,
+     getallSchoolClasses,
+     getallSchoolSections,
+     getallSchoolSubjects,
+     getallSchoolTeachers
+
  }

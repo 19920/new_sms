@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import {Form,Button,Table,Row,Col,Modal} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap'
 const NewStaff = () => {
+    const [firstname,setFirstName] = useState('')
+    const [lastname,setLastName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [gender,setGender] = useState('')
@@ -18,9 +20,9 @@ const NewStaff = () => {
         <Row>
             <Col xs={12} md={4} lg={4}>
             <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
+                    <Form.Label>First Name</Form.Label>
                     <Form.Control  
-                     style={{height:50}} type="email" placeholder="Enter email" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                     style={{height:50}} type="email" placeholder="Enter first name" value={firstname} onChange={(e)=>setFirstName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
 
@@ -31,6 +33,18 @@ const NewStaff = () => {
                 </Form.Group>
             </Col>
             <Col xs={12} md={4} lg={3}>
+            <Form.Group controlId='email'>
+                    <Form.Label>Last name</Form.Label>
+                    <Form.Control  
+                     style={{height:50}} type="text" placeholder="Enter last name" value={lastname} onChange={(e)=>setLastName(e.target.value)}>
+                    </Form.Control>
+                </Form.Group>
+            <Form.Group controlId='email'>
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control  
+                     style={{height:50}} type="email" placeholder="Enter email" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                    </Form.Control>
+                </Form.Group>
             <Form.Group controlId='gender' style={{height:80}}>
             <Form.Label>Gender</Form.Label>
          <Form.Check type="checkbox" 
@@ -56,13 +70,14 @@ const NewStaff = () => {
 
          </Form.Check>
      </Form.Group>
-     <Form.Group controlId='phone'>
+     
+            </Col>
+            <Col xs={12} md={4} lg={4}>
+            <Form.Group controlId='phone'>
                     <Form.Label>Phone</Form.Label>
                     <Form.Control style={{height:50}}  type="text" placeholder="Enter phone" value={email} onChange={(e)=>setEmail(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
-            </Col>
-            <Col xs={12} md={4} lg={4}>
             <Form.Group controlId='date'>
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control style={{height:50}} type="date" placeholder="Enter date of birth" value={password} onChange={(e)=>setPassword(e.target.value)}>
@@ -169,7 +184,32 @@ const NewStaff = () => {
        
         <Row>
         <Col xs={12} md={4} lg={4}>
-            <Form.Group controlId='login'>
+        <Form.Group controlId='gender'>
+            <h3>Bus In Charge:</h3>
+         <Form.Check type="checkbox" 
+         label="Yes"
+          value={isBusCharge} 
+          checked={isBusCharge}
+         onChange={(e)=>{
+             setBusInCharge(e.target.checked)
+             
+         }
+         }>
+
+         </Form.Check>
+         <Form.Check type="checkbox" 
+         label="No"
+          value={isBusCharge} 
+          checked={isBusCharge}
+         onChange={(e)=>{
+             setBusInCharge(e.target.checked)
+             
+         }
+         }>
+
+         </Form.Check>
+     </Form.Group>
+            {/* <Form.Group controlId='login'>
             <h3>Login Details</h3>
          <Form.Check type="checkbox" 
          label="Disallow Login?"
@@ -204,12 +244,12 @@ const NewStaff = () => {
          }>
 
          </Form.Check>
-     </Form.Group>
+     </Form.Group> */}
 
                 
             </Col>
             <Col xs={12} md={4} lg={4}>
-            <Form.Group controlId='gender'>
+            {/* <Form.Group controlId='gender'>
             <h3>Bus In Charge:</h3>
          <Form.Check type="checkbox" 
          label="Yes"
@@ -233,7 +273,7 @@ const NewStaff = () => {
          }>
 
          </Form.Check>
-     </Form.Group>
+     </Form.Group> */}
 
                 
             </Col>

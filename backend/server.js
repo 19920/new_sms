@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import connectDB from "./config/db.js"
 import usersRoutes from './routes/users.js'
 import schoolsRoutes from './routes/schools.js'
+import staffRoutes from './routes/staff.js'
+import roleRoutes from './routes/roles.js'
 import path from 'path';
 import {errorHandler} from './middleware/error.js'
 import cors from 'cors'
@@ -16,6 +18,8 @@ app.use(cors())
 
 app.use('/api/users',usersRoutes);
 app.use('/api/schools',schoolsRoutes);
+app.use('/api/staffs',staffRoutes);
+app.use('/api/roles',roleRoutes);
 const __dirname= path.resolve()
 if(process.env.NODE_ENV ==='production'){
     app.use(express.static(path.join(__dirname,'/frontend/build')))

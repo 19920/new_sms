@@ -95,7 +95,7 @@ const isUseTeacher=[
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Class Sections',
+        name: 'Sections',
         to: '/schools/sections',
       },
       {
@@ -379,7 +379,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'SM School',
     route: '/buttons',
-    icon: 'cil-cursor',
+    icon: 'cil-chart-pie',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -406,7 +406,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'SM Student',
     route: '/buttons',
-    icon: 'cil-cursor',
+    icon: 'cil-ban',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -456,7 +456,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'SM Academic',
     route: '/buttons',
-    icon: 'cil-cursor',
+    icon: 'cil-calculator',
     _children: [
       {
         _tag: 'CSidebarNavItem',
@@ -465,7 +465,7 @@ const _nav =  [
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Class Sections',
+        name: 'Sections',
         to: '/schools/sections',
       },
       {
@@ -520,7 +520,7 @@ const _nav =  [
     _tag: 'CSidebarNavDropdown',
     name: 'SM Student',
     route: '/buttons',
-    icon: 'cil-cursor',
+    icon: 'cil-bell',
     _children: [
       {
         _tag: 'CSidebarNavItem',

@@ -33,9 +33,19 @@ import {SCHOOL_LIST_REQUEST,
     GET_SCHOOL_CLASSES_REQUEST_FAIL,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS,
-    ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL
+    ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL,
+    GET_SCHOOL_TEACHERS_REQUEST,
+    GET_SCHOOL_TEACHERS_REQUEST_SUCCESS,
+    GET_SCHOOL_TEACHERS_REQUEST_FAIL,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL,
+    GET_SCHOOL_SUBJECTS_REQUEST,
+    GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS,
+    GET_SCHOOL_SUBJECTS_REQUEST_FAIL,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST
 } from '../constants/schoolTypes'
 import axios from 'axios';
+import { setAlert } from './alertActions';
 
 export const getSchools=(keyword="",pageNumber="")=>async(dispatch,getState)=>{
 try {
@@ -105,7 +115,31 @@ export const gettopSchools=()=>async(dispatch)=>{
             })
         }
         }
-
+        export const getSchoolsTeachers=(id)=>async(dispatch,getState)=>{
+            try {
+                const {user:{userInfo}}= getState()
+                // console.log("getSchools in getSchools actions",userInfo)
+                const  config={
+                    headers:{
+                        Authorization:`Bearer ${userInfo.token}`
+                    }
+                }
+                dispatch({type:GET_SCHOOL_TEACHERS_REQUEST});
+                const {data} = await axios.get(`http://localhost:13000/api/schools/${id}/teachers`,config)
+                console.log("school teachers",data)
+                dispatch({
+                    type:GET_SCHOOL_TEACHERS_REQUEST_SUCCESS,
+                    payload:data.users
+                })
+            } catch (error) {
+                dispatch({
+                    type:GET_SCHOOL_TEACHERS_REQUEST_FAIL,
+                    payload:error.response&&error.response.data.message
+                    ?error.response.data.message
+                    :error.message
+                })
+            }
+            }
         export const getSchoolsClasses=(id)=>async(dispatch,getState)=>{
             try {
                 const {user:{userInfo}}= getState()
@@ -131,6 +165,32 @@ export const gettopSchools=()=>async(dispatch)=>{
                 })
             }
             }
+            export const getSchoolsSubjects=(id)=>async(dispatch,getState)=>{
+                try {
+                    console.log("school subjcets   ",id)
+                    const {user:{userInfo}}= getState()
+                    // console.log("getSchools in getSchools actions",userInfo)
+                    const  config={
+                        headers:{
+                            Authorization:`Bearer ${userInfo.token}`
+                        }
+                    }
+                    dispatch({type:GET_SCHOOL_SUBJECTS_REQUEST});
+                    const {data} = await axios.get(`http://localhost:13000/api/schools/${id}/subjects`,config)
+                    console.log("school subjcets ",data)
+                    dispatch({
+                        type:GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS,
+                        payload:data.subjects
+                    })
+                } catch (error) {
+                    dispatch({
+                        type:GET_SCHOOL_SUBJECTS_REQUEST_FAIL,
+                        payload:error.response&&error.response.data.message
+                        ?error.response.data.message
+                        :error.message
+                    })
+                }
+                }
 export const getSchool=(id)=>async(dispatch)=>{
     try {
         dispatch({type:SCHOOL_DETAILS_REQUEST});
@@ -292,6 +352,36 @@ export const getSchool=(id)=>async(dispatch)=>{
                         } catch (error) {
                             dispatch({
                                 type:ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL,
+                                payload:error.response&&error.response.data.message
+                                ?error.response.data.message
+                                :error.message
+                            })
+                        }
+                    }
+                    export const assignSubjectToSchool =(subject)=>async(dispatch,getState)=>{
+                        console.log("subject",subject)
+                        try {
+                            dispatch({
+                                type:ASSIGN_SUBJECT_TO_SCHOOL_REQUEST
+                            })
+                            const {user:{userInfo}}= getState()
+                            const  config={
+                                headers:{
+                                    Authorization:`Bearer ${userInfo.token}`
+                                }
+                            }
+                            console.log("userInfo in assgn subject",userInfo)
+                            const {data} = await axios.post(`http://localhost:13000/api/schools/add-subject`,subject,config)
+                            dispatch({
+                                type:ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_SUCCESS,
+                                payload:data.user
+                            })
+                           dispatch(setAlert("Subject created successfull",'success'))
+                        } catch (error) {
+                            console.log("error",error.message)
+                            dispatch(setAlert( `${error.message}`,'danger'))
+                            dispatch({
+                                type:ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL,
                                 payload:error.response&&error.response.data.message
                                 ?error.response.data.message
                                 :error.message

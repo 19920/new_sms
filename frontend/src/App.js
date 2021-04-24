@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
 import Login from './views/base/school/auth/Login';
+import Alert from './views/base/school/layouts/Alert';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -24,6 +25,7 @@ class App extends Component {
     return (
       <HashRouter>
           <React.Suspense fallback={loading}>
+         
             <Switch>
             <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               {/* <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />

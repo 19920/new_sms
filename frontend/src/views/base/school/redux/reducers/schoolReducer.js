@@ -5,13 +5,6 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
     SCHOOL_CREATE_REQUEST_FAIL, SCHOOL_UPDATE_REQUEST, 
     SCHOOL_UPDATE_REQUEST_SUCCESS, SCHOOL_UPDATE_REQUEST_FAIL, 
     SCHOOL_UPDATE_REQUEST_RESET, 
-    SCHOOL_ADD_REVIEW_REQUEST, 
-    SCHOOL_ADD_REVIEW_REQUEST_FAIL, 
-    SCHOOL_ADD_REVIEW_REQUEST_RESET,
-    SCHOOL_ADD_REVIEW_REQUEST_SUCCESS,
-    TOP_SCHOOLS_REQUEST,
-    TOP_SCHOOLS_REQUEST_SUCCESS,
-    TOP_SCHOOLS_REQUEST_FAIL,
     GET_SCHOOL_USERS_REQUEST,
     GET_SCHOOL_USERS_REQUEST_SUCCESS,
     GET_SCHOOL_USERS_REQUEST_FAIL,
@@ -23,7 +16,16 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
     GET_SCHOOL_CLASSES_REQUEST_FAIL,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS,
-    ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL
+    ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL,
+    GET_SCHOOL_TEACHERS_REQUEST,
+    GET_SCHOOL_TEACHERS_REQUEST_SUCCESS,
+    GET_SCHOOL_TEACHERS_REQUEST_FAIL,
+    GET_SCHOOL_SUBJECTS_REQUEST,
+    GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS,
+    GET_SCHOOL_SUBJECTS_REQUEST_FAIL,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL
   } from '../constants/schoolTypes'
   export const schoolReducer=(state={schools:[]},action)=>{
       const{type,payload} = action
@@ -51,6 +53,19 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
           return state;
   }
 }
+export const schoolTeachersReducer=(state={teachers:[]},action)=>{
+  const{type,payload} = action
+switch(type){
+    case GET_SCHOOL_TEACHERS_REQUEST:
+        return { loading:true,teachers:[]}
+    case GET_SCHOOL_TEACHERS_REQUEST_SUCCESS:
+        return{loading:false,teachers:payload,pages:payload.pages,page:payload.page}
+        case GET_SCHOOL_TEACHERS_REQUEST_FAIL:
+          return{loading:false,error:payload}
+    default:
+        return state;
+}
+}
 export const schoolClassesReducer=(state={classes:[]},action)=>{
   const{type,payload} = action
 switch(type){
@@ -65,6 +80,19 @@ switch(type){
 }
 }
 
+export const schoolSubjectsReducer=(state={subjects:[]},action)=>{
+  const{type,payload} = action
+switch(type){
+    case GET_SCHOOL_SUBJECTS_REQUEST:
+        return { loading:true,subjects:[]}
+    case GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS:
+        return{loading:false,subjects:payload,pages:payload.pages,page:payload.page}
+        case GET_SCHOOL_SUBJECTS_REQUEST_FAIL:
+          return{loading:false,error:payload}
+    default:
+        return state;
+}
+}
   export const deleteschoolReducer=(state={},action)=>{
     const{type,payload} = action
   switch(type){
@@ -132,6 +160,20 @@ switch(type){
    case ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS:
         return{loading:false,success:true,assignedClass:payload}
         case ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL:
+          return{loading:false,error:payload,success:false}
+    default:
+        return state;
+}
+}
+
+export const assignSubjectToSchoolReducer=(state={},action)=>{
+  const{type,payload} = action
+switch(type){
+    case ASSIGN_SUBJECT_TO_SCHOOL_REQUEST:
+        return { loading:true,}
+   case ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_SUCCESS:
+        return{loading:false,success:true,assignedSubject:payload}
+        case ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL:
           return{loading:false,error:payload,success:false}
     default:
         return state;

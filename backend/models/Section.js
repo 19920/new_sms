@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 const {ObjectId} = mongoose.Schema.Types
 //const geocoder = require('../utils/geocoder')
-const ClassSchema = new mongoose.Schema({
+const SectionSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:[true,"Please add Scool name"],
+        required:[true,"Please add section name"],
         maxlength:[150,"Name can not be more than 150 characters"]
     },
     description:{
@@ -21,13 +21,6 @@ const ClassSchema = new mongoose.Schema({
         ref:'School',
         required:true
     },
-    section:{
-        type:String
-    },
-    numberOfStudents:{
-        type:Number,
-        default:0
-    },
     createdAt:{
         type:Date,
         default:Date.now()
@@ -36,5 +29,5 @@ const ClassSchema = new mongoose.Schema({
 
 })
 
-const ClassModel = mongoose.model("ClassModel",ClassSchema)
-export default ClassModel
+const SectionModel = mongoose.model("SectionModel",SectionSchema)
+export default SectionModel
