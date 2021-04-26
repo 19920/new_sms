@@ -1,15 +1,41 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {Form,Button,Table,Row,Col,Modal} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap'
-const NewStaff = () => {
+import{useDispatch,useSelector} from 'react-redux'
+import { addStaffToSchool } from './redux/actions/schoolStaffActions';
+const NewStaff = ({history}) => {
+    const dispatch = useDispatch()
     const [firstname,setFirstName] = useState('')
     const [lastname,setLastName] = useState('')
+    const [phone,setPhone] = useState('')
+    const [description,setDescription] = useState('')
+    const [address,setAddress] = useState('')
+    const [dateOfBirth,setDateOfBirth] = useState('')
+    const [nationalId,setNationalId] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [gender,setGender] = useState('')
     const [isBusCharge,setBusInCharge] = useState('')
     const [nameOfClasse,setClassName] = useState('')
     const [isnewuser,setNewUser] = useState('')
+
+    const assignedStaffInfo=useSelector((state)=>state.assignedStaffInfo)
+    const {loading:assigningLoading,success,} = assignedStaffInfo
+    const loggedInuser = useSelector((state)=>state.user);
+    const {userInfo} = loggedInuser
+    const onsubmit=(e)=>{
+        // dispatch(addStaffToSchool({
+        //   name:name,
+        //   description:description
+        // }))
+      }
+      useEffect(() => {
+        if(!userInfo){
+          history.push('/login')
+         }
+        
+      }, [dispatch,userInfo,success])
+  
     return (
         <>
         <Row>
@@ -28,7 +54,7 @@ const NewStaff = () => {
 
                 <Form.Group controlId='address'>
                     <Form.Label>Address</Form.Label>
-                    <Form.Control  as ="textarea" rows={8} type="text" placeholder="Enter Address" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                    <Form.Control  as ="textarea" rows={8} type="text" placeholder="Enter Address" value={address} onChange={(e)=>setAddress(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
             </Col>
@@ -75,18 +101,18 @@ const NewStaff = () => {
             <Col xs={12} md={4} lg={4}>
             <Form.Group controlId='phone'>
                     <Form.Label>Phone</Form.Label>
-                    <Form.Control style={{height:50}}  type="text" placeholder="Enter phone" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                    <Form.Control style={{height:50}}  type="text" placeholder="Enter phone" value={phone} onChange={(e)=>setPhone(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
             <Form.Group controlId='date'>
                     <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control style={{height:50}} type="date" placeholder="Enter date of birth" value={password} onChange={(e)=>setPassword(e.target.value)}>
+                    <Form.Control style={{height:50}} type="date" placeholder="Enter date of birth" value={dateOfBirth} onChange={(e)=>setDateOfBirth(e.target.value)}>
 
                     </Form.Control>
                 </Form.Group>
                 <Form.Group controlId='email'>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control style={{height:50}} type="text" placeholder="Enter Email" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                    <Form.Label>National ID or Passport No.</Form.Label>
+                    <Form.Control style={{height:50}} type="text" placeholder="National ID or Passport No." value={nationalId} onChange={(e)=>setNationalId(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
             </Col>

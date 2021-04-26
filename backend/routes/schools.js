@@ -7,7 +7,7 @@ import { protect,authorize } from '../middleware/auth.js';
 import School from '../models/School.js'
 import  {getAllSchools,getSchool,createSchool,updateSchool,removeSchool,
     assignUserToSchool,getallSchoolUsers,addClassToSchool,getallSchoolClasses,
-    addSectionToSchool,getallSchoolSections,addSubjectSchool,getallSchoolSubjects,getallSchoolTeachers
+    addSectionToSchool,getallSchoolSections,addSubjectSchool,getallSchoolSubjects,getallSchoolTeachers,adminAddStaffSchool
 } from "../controllers/schools.js"
 const router =express.Router({mergeParams:true});
 
@@ -26,6 +26,7 @@ router.route("/:id/assign-user").post(protect,authorize("SuperUser","Admin"),ass
 router.route("/add-class").post(protect,authorize("Admin"),addClassToSchool)
 router.route("/add-section").post(protect,authorize("Admin"),addSectionToSchool)
 router.route("/add-subject").post(protect,authorize("Admin"),addSubjectSchool)
+router.route("/add-staff").post(protect,authorize("Admin"),adminAddStaffSchool)
 router.route("/:id/users").get(protect,authorize("SuperUser","Admin"),getallSchoolUsers)
 router.route("/:id/teachers").get(protect,authorize("SuperUser","Admin"),getallSchoolTeachers)
 router.route("/:id/classes").get(protect,authorize("SuperUser","Admin"),getallSchoolClasses)

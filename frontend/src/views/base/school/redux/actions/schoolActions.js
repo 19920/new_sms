@@ -42,7 +42,12 @@ import {SCHOOL_LIST_REQUEST,
     GET_SCHOOL_SUBJECTS_REQUEST,
     GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS,
     GET_SCHOOL_SUBJECTS_REQUEST_FAIL,
-    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST_FAIL,
+    GET_SCHOOL_SECTIONS_REQUEST,
+    GET_SCHOOL_SECTIONS_REQUEST_SUCCESS
 } from '../constants/schoolTypes'
 import axios from 'axios';
 import { setAlert } from './alertActions';
@@ -191,6 +196,34 @@ export const gettopSchools=()=>async(dispatch)=>{
                     })
                 }
                 }
+
+                export const getSchoolsSections=(id)=>async(dispatch,getState)=>{
+                    try {
+                        console.log("section in action",id)
+                        const {user:{userInfo}}= getState()
+                        // console.log("getSchools in getSchools actions",userInfo)
+                        const  config={
+                            headers:{
+                                Authorization:`Bearer ${userInfo.token}`
+                            }
+                        }
+                        dispatch({type:GET_SCHOOL_SECTIONS_REQUEST});
+                        const {data} = await axios.get(`http://localhost:13000/api/schools/${id}/sections`,config)
+                        console.log("school sections ",data)
+                        dispatch({
+                            type:GET_SCHOOL_SECTIONS_REQUEST_SUCCESS,
+                            payload:data.sections
+                        })
+                    } catch (error) {
+                        dispatch({
+                            type:GET_SCHOOL_SECTIONS_REQUEST_SUCCESS,
+                            payload:error.response&&error.response.data.message
+                            ?error.response.data.message
+                            :error.message
+                        })
+                    }
+                    }
+
 export const getSchool=(id)=>async(dispatch)=>{
     try {
         dispatch({type:SCHOOL_DETAILS_REQUEST});
@@ -382,6 +415,37 @@ export const getSchool=(id)=>async(dispatch)=>{
                             dispatch(setAlert( `${error.message}`,'danger'))
                             dispatch({
                                 type:ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL,
+                                payload:error.response&&error.response.data.message
+                                ?error.response.data.message
+                                :error.message
+                            })
+                        }
+                    }
+
+                    export const assignSectionToSchool =(section)=>async(dispatch,getState)=>{
+                        console.log("section in action",section)
+                        try {
+                            dispatch({
+                                type:ASSIGN_SECTION_TO_SCHOOL_REQUEST
+                            })
+                            const {user:{userInfo}}= getState()
+                            const  config={
+                                headers:{
+                                    Authorization:`Bearer ${userInfo.token}`
+                                }
+                            }
+                            console.log("userInfo in assgn subject",userInfo)
+                            const {data} = await axios.post(`http://localhost:13000/api/schools/add-section`,section,config)
+                            dispatch({
+                                type:ASSIGN_SECTION_TO_SCHOOL_REQUEST_SUCCESS,
+                                payload:data.user
+                            })
+                           dispatch(setAlert("Section created successfull",'success'))
+                        } catch (error) {
+                            console.log("error",error.message)
+                            dispatch(setAlert( `${error.message}`,'danger'))
+                            dispatch({
+                                type:ASSIGN_SECTION_TO_SCHOOL_REQUEST_FAIL,
                                 payload:error.response&&error.response.data.message
                                 ?error.response.data.message
                                 :error.message

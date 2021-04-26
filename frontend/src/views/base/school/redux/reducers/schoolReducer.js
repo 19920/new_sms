@@ -5,27 +5,41 @@ import {SCHOOL_LIST_REQUEST,GET_ALL_SCHOOLS_SUCCESS,GET_ALL_SCHOOLS_FAIL,
     SCHOOL_CREATE_REQUEST_FAIL, SCHOOL_UPDATE_REQUEST, 
     SCHOOL_UPDATE_REQUEST_SUCCESS, SCHOOL_UPDATE_REQUEST_FAIL, 
     SCHOOL_UPDATE_REQUEST_RESET, 
+
     GET_SCHOOL_USERS_REQUEST,
     GET_SCHOOL_USERS_REQUEST_SUCCESS,
     GET_SCHOOL_USERS_REQUEST_FAIL,
+
     ASSIGN_USER_TO_SCHOOL_REQUEST,
     ASSIGN_USER_TO_SCHOOL_REQUEST_SUCCESS,
     ASSIGN_USER_TO_SCHOOL_REQUEST_FAIL,
+
     GET_SCHOOL_CLASSES_REQUEST,
     GET_SCHOOL_CLASSES_REQUEST_SUCCESS,
     GET_SCHOOL_CLASSES_REQUEST_FAIL,
+
     ASSIGN_CLASS_TO_SCHOOL_REQUEST,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST_SUCCESS,
     ASSIGN_CLASS_TO_SCHOOL_REQUEST_FAIL,
+
     GET_SCHOOL_TEACHERS_REQUEST,
     GET_SCHOOL_TEACHERS_REQUEST_SUCCESS,
     GET_SCHOOL_TEACHERS_REQUEST_FAIL,
+
     GET_SCHOOL_SUBJECTS_REQUEST,
     GET_SCHOOL_SUBJECTS_REQUEST_SUCCESS,
     GET_SCHOOL_SUBJECTS_REQUEST_FAIL,
+
     ASSIGN_SUBJECT_TO_SCHOOL_REQUEST,
     ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_SUCCESS,
-    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL
+    ASSIGN_SUBJECT_TO_SCHOOL_REQUEST_FAIL,
+
+    GET_SCHOOL_SECTIONS_REQUEST,
+    GET_SCHOOL_SECTIONS_REQUEST_SUCCESS,
+    GET_SCHOOL_SECTIONS_REQUEST_FAIL,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST_SUCCESS,
+    ASSIGN_SECTION_TO_SCHOOL_REQUEST_FAIL
   } from '../constants/schoolTypes'
   export const schoolReducer=(state={schools:[]},action)=>{
       const{type,payload} = action
@@ -93,6 +107,20 @@ switch(type){
         return state;
 }
 }
+export const schoolSectionsReducer=(state={sections:[]},action)=>{
+  const{type,payload} = action
+switch(type){
+    case GET_SCHOOL_SECTIONS_REQUEST:
+        return { loading:true,sections:[]}
+    case GET_SCHOOL_SECTIONS_REQUEST_SUCCESS:
+        return{loading:false,sections:payload,pages:payload.pages,page:payload.page}
+        case GET_SCHOOL_SECTIONS_REQUEST_FAIL:
+          return{loading:false,error:payload}
+    default:
+        return state;
+}
+}
+
   export const deleteschoolReducer=(state={},action)=>{
     const{type,payload} = action
   switch(type){
@@ -180,6 +208,19 @@ switch(type){
 }
 }
 
+export const assignSectionToSchoolReducer=(state={},action)=>{
+  const{type,payload} = action
+switch(type){
+    case ASSIGN_SECTION_TO_SCHOOL_REQUEST:
+        return { loading:true,}
+   case ASSIGN_SECTION_TO_SCHOOL_REQUEST_SUCCESS:
+        return{loading:false,success:true,assignedSction:payload}
+        case ASSIGN_SECTION_TO_SCHOOL_REQUEST_FAIL:
+          return{loading:false,error:payload,success:false}
+    default:
+        return state;
+}
+}
 //   export const addproductreviewReducer=(state={},action)=>{
 //     const{type,payload} = action
 //   switch(type){

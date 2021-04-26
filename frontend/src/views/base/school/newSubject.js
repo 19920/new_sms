@@ -26,8 +26,11 @@ const AllSubject = ({history}) => {
 
     const classeReducer = useSelector(state=>state.classeReducer)
     const schoolSubjects = useSelector(state=>state.schoolSubjects)
+
     const {loading:subjectsLoaiding,error:subjectsError,subjects} = schoolSubjects
+
     const schoolTeachers = useSelector(state=>state.schoolTeachers)
+    
     const {loading:teacherLoading,error:teacherError,teachers} = schoolTeachers
     const {loading,error,classes} = classeReducer
     const loggedInuser = useSelector((state)=>state.user);

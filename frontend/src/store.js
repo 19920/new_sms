@@ -4,10 +4,16 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension'
 import { userReducer,changeState } from './views/base/school/redux/reducers/userReducer';
 import {schoolReducer,createschoolReducer,deleteschoolReducer,updateschoolReducer,
-  schoolUsersReducer,assignUserToSchoolReducer,schoolClassesReducer,assignClassToSchoolReducer,
+  schoolUsersReducer,
+  assignUserToSchoolReducer,
+  schoolClassesReducer,
+  assignClassToSchoolReducer,
   schoolTeachersReducer,
   schoolSubjectsReducer,
-  assignSubjectToSchoolReducer
+  assignSubjectToSchoolReducer,
+  schoolSectionsReducer,
+  assignSectionToSchoolReducer,
+  
 } from './views/base/school/redux/reducers/schoolReducer'
 import {staffReducer,assignStaffToSchoolReducer} from  './views/base/school/redux/reducers/staffReducer'
 import {alertReducer} from './views/base/school/redux/reducers/alert'
@@ -25,17 +31,28 @@ const reducer=combineReducers({
   user:userReducer,
   staff:staffReducer,
   alertReducer:alertReducer,
+
   schoolUsers:schoolUsersReducer,
   schoolTeachers:schoolTeachersReducer,
   schoolSubjects:schoolSubjectsReducer,
+  schoolSections:schoolSectionsReducer,
+  classeReducer:schoolClassesReducer,
+
+ 
+  assignedSectionsInfo:assignSectionToSchoolReducer,
   assignedUserInfo:assignUserToSchoolReducer,
   assignedStaffInfo:assignStaffToSchoolReducer,
   schools:schoolReducer,
-  classeReducer:schoolClassesReducer,
+
+  
   assignedClassInfo:assignClassToSchoolReducer,
   assignedSubjectInfo:assignSubjectToSchoolReducer,
+
+
   createschoolReducer:createschoolReducer,
   deleteschoolReducer:deleteschoolReducer,
+
+
   updateschoolReducer:updateschoolReducer
 
 })

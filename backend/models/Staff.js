@@ -14,6 +14,10 @@ phone:{
     type:String,
     required:[true,'The phone is required']
 },
+nationalId:{
+    type:String,
+    required:[true,'The  national ID or Passport number  is required']
+},
 email:{
     type:String,
     match:[/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

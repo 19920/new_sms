@@ -2,6 +2,7 @@ import asyncHandler from '../middleware/asyncHandler.js'
 import ClassModel from '../models/Class.js';
 import School from '../models/School.js';
 import SectionModel from '../models/Section.js';
+import Staff from '../models/Staff.js';
 import SubjectModel from '../models/Subject.js';
 import User from '../models/User.js';
 import ErrorResponse from '../utils/errorResponse.js';
@@ -199,6 +200,7 @@ const getTopSchools=asyncHandler(async(req,res)=>{
     res.status(201).json({success:true,data:{}})
     
 })
+//add admin to school
 const assignUserToSchool = asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.params.id)
     const {firstName,lastName,email,role,password} = req.body;
@@ -216,6 +218,7 @@ const assignUserToSchool = asyncHandler(async(req,res,next)=>{
     })
     sentTokenResponse(user,200,res)
 })
+//add class to school
 const addClassToSchool=asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.user.school)
     const {name,description,section,numberOfStudents} = req.body;
@@ -233,6 +236,7 @@ const addClassToSchool=asyncHandler(async(req,res,next)=>{
     res.status(201).json(classdata)
     
 })
+//add section to school
 const addSectionToSchool=asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.user.school)
     const {name,description,} = req.body;
@@ -248,6 +252,8 @@ const addSectionToSchool=asyncHandler(async(req,res,next)=>{
     res.status(201).json(sectiondata)
     
 })
+
+// add subject to School
 const addSubjectSchool=asyncHandler(async(req,res,next)=>{
     console.log("addSubjectSchool",req.body)
     const school = await School.findById(req.user.school)
@@ -263,6 +269,23 @@ const addSubjectSchool=asyncHandler(async(req,res,next)=>{
     res.status(201).json(subjectdata)
     
 })
+// add staff to School
+const adminAddStaffSchool=asyncHandler(async(req,res,next)=>{
+    console.log("adminAddStaffSchool",req.body)
+    const school = await School.findById(req.user.school)
+    if(!school){
+        return next(new ErrorResponse(`school not found with id of  ${req.params.id}`,400));
+    }
+    if(!req.body.name){
+        return res.status(400).json({message:"Name is required"})
+    }
+    req.body.school = school._id;
+    req.body.addedBy = req.user.id;
+    const staffdata = await Staff.create(req.body)
+    res.status(201).json(staffdata)
+    
+})
+//create token
 const sentTokenResponse =  (newUser,statusCode,res)=>{
     const options = {
         expires:new Date(Date.now() +process.env.JWT_COOKIE_EXP*24*60*60*5000),
@@ -282,6 +305,7 @@ const sentTokenResponse =  (newUser,statusCode,res)=>{
     }
     res.status(statusCode).json({success:true,user})
 }
+// get all school Users
 const getallSchoolUsers = asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.params.id)
     const pageSize=10
@@ -293,6 +317,8 @@ const getallSchoolUsers = asyncHandler(async(req,res,next)=>{
     const count = users.length
     res.status(200).json({count,page,pages:Math.ceil(count/pageSize),users})
 })
+
+//get all school teachers
 const getallSchoolTeachers = asyncHandler(async(req,res,next)=>{
     const school = await School.findById(req.params.id)
     const pageSize=10
@@ -341,6 +367,10 @@ const getallSchoolSubjects = asyncHandler(async(req,res,next)=>{
     res.status(200).json({count,page,pages:Math.ceil(count/pageSize),subjects})
 
 })
+
+//get totals
+
+
  export {
      getAllSchools,
      getSchool,
@@ -358,6 +388,7 @@ const getallSchoolSubjects = asyncHandler(async(req,res,next)=>{
      getallSchoolClasses,
      getallSchoolSections,
      getallSchoolSubjects,
-     getallSchoolTeachers
+     getallSchoolTeachers,
+     adminAddStaffSchool
 
  }

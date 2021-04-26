@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {
     CButton,
     CCard,
@@ -36,9 +36,10 @@ import {
   import {Form,Button,Table,Row,Col,Modal} from 'react-bootstrap';
   import CIcon from '@coreui/icons-react'
   import {LinkContainer} from 'react-router-bootstrap'
-
-
+  import {useDispatch,useSelector} from 'react-redux';
+  import Loader from 'react-loader-spinner'
   import { DocsLink } from 'src/reusable'
+import { assignSectionToSchool,getSchoolsSections } from './redux/actions/schoolActions';
   
   const usersData=[
       {id:1,name:"MP",description:"Math-Physics",addedAt:"2021-04-15",action:'Edit,Delete'},
@@ -58,8 +59,34 @@ import {
   const fields = ['id','name','description',"addedAt","action"]
 
 
-const NewSection = () => {
+const NewSection = ({history}) => {
+    const dispatch = useDispatch()
+    const [name,setName] = useState('')
+    const [description,setDescription] = useState('')
     const[showForm,setShowForm] = useState(false)
+
+    const loggedInuser = useSelector((state)=>state.user);
+    const {userInfo} = loggedInuser
+    const schoolSections = useSelector((state)=>state.schoolSections);
+    const {loading,sections} = schoolSections
+    const assignedSectionsInfo=useSelector((state)=>state.assignedSectionsInfo)
+    const {loading:assigningLoading,success,} = assignedSectionsInfo
+    const onsubmit=(e)=>{
+      dispatch(assignSectionToSchool({
+        name:name,
+        description:description
+      }))
+    }
+    useEffect(() => {
+      if(!userInfo){
+        history.push('/login')
+       }
+      if(success){
+        dispatch(getSchoolsSections(userInfo.school))
+      }
+      dispatch(getSchoolsSections(userInfo.school))
+    }, [dispatch,userInfo,success])
+    console.log("sections",sections)
     return (
         <>
           <button 
@@ -75,20 +102,17 @@ const NewSection = () => {
             
             <CCardBody>
               <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
-                {/* <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Static</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <p className="form-control-static">Username</p>
-                  </CCol>
-                </CFormGroup> */}
                 <CFormGroup row>
                   <CCol md="3">
                     <CLabel htmlFor="text-input">Section Name</CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput id="text-input" name="text-input" placeholder="Name" />
+                    <CInput id="text-input" 
+                    name="text-input" 
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
+                     />
                     <CFormText>Please enter the section name</CFormText>
                   </CCol>
                 </CFormGroup>
@@ -101,6 +125,8 @@ const NewSection = () => {
                       name="textarea-input" 
                       id="textarea-input" 
                       rows="7"
+                      value={description}
+                      onChange={(e)=>setDescription(e.target.value)}
                       placeholder="section description..." 
                     />
                   </CCol>
@@ -109,7 +135,13 @@ const NewSection = () => {
               </CForm>
             </CCardBody>
             <CCardFooter>
-              <CButton type="submit" size="sm" color="primary"><CIcon name="cil-scrubber" /> Submit</CButton>
+              <CButton 
+              type="submit" 
+              size="sm" 
+              color="primary"
+              onClick={(e)=>onsubmit(e)}
+              >
+              <CIcon name="cil-scrubber" /> Submit</CButton>
               { ' '}
               <CButton type="reset" size="sm" color="danger"><CIcon name="cil-ban" /> Reset</CButton>
             </CCardFooter>
@@ -135,7 +167,18 @@ const NewSection = () => {
   <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
  <CInput id="text-input" name="text-input" placeholder="Search section by name" />
   </CForm>
-          <Table striped bordered hover responsive className="table-sm">
+  {loading|| assigningLoading?<section className="container">
+          <center>
+            <Loader
+              type="Puff"
+              color="#00BFFF"
+              height={100}
+              width={100}
+              timeout={8000} //3 secs
+
+            />
+          </center>
+        </section>:<Table striped bordered hover responsive className="table-sm">
       <thead className="bg-info">
           <tr>
               <th>ID</th>
@@ -149,12 +192,12 @@ const NewSection = () => {
           </tr>
       </thead>
       <tbody>
-      {usersData&&usersData.map(product=>(
+      {sections&&sections.map(product=>(
       <tr key={product.id}>
-                    <td>{product.id}</td>
+                    <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>{product.description}</td>
-                  <td>{product.addedAt}</td>
+                  <td>{product.createdAt}</td>
                   
                   
                   <td>
@@ -176,6 +219,8 @@ const NewSection = () => {
       </tbody>
 
   </Table>
+        }
+          
         </CCol>
       </CRow>
 
