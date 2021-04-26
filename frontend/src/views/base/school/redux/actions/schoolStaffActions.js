@@ -47,7 +47,7 @@ export const getSchoolStaffs=(keyword="",pageNumber="")=>async(dispatch,getState
                 type:ASSIGN_STAFF_TO_SCHOOL_REQUEST_SUCCESS,
                 payload:data.user
             })
-            dispatch(setAlert('School created', 'success'))
+            dispatch(setAlert('Staff created', 'success'))
         } catch (error) {
             dispatch({
                 type:ASSIGN_STAFF_TO_SCHOOL_REQUEST_FAIL,
