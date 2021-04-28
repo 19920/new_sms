@@ -30,12 +30,32 @@ const getAllSchoolStaff=asyncHandler(async(req,res)=>{
 //@desc Private/Admin
 const createStaff=asyncHandler(async(req,res)=>{
     try {
+       
       let user  = await User.findById(req.user.id)
       req.body.school = user.school,
       req.body.addedBy = user._id
-     const createdStaff = new Staff(req.body)
-     const newStaffcreated = await createdStaff.save()
-     res.status(201).json(newStaffcreated)
+      const findUser = await User.find({email:req.body.loginemail})
+      if(findUser.length>0){
+          return res.status(400).json({error:'User with same email already exist'})
+      }
+       User.create({
+        firstName:req.body.firstname,
+        lastName:req.body.lastname,
+        email:req.body.loginemail,
+        role:req.body.role,
+        password:req.body.password,
+        school:req.body.school
+    }).then(async(success,error)=>{
+        if(success){
+            const createdStaff = new Staff(req.body)
+            const newStaffcreated = await createdStaff.save()  
+            return res.status(201).json(newStaffcreated)
+        }else{
+            console.log("error",error)
+            res.status(400)
+            throw new Error('Staff not created')
+        }
+    })
     } catch (error) {
         console.log("error",error)
         res.status(400)

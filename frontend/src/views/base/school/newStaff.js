@@ -14,6 +14,7 @@ const NewStaff = ({history}) => {
     const [dateOfBirth,setDateOfBirth] = useState('')
     const [nationalId,setNationalId] = useState('')
     const [email,setEmail] = useState('')
+    const [loginemail,setLoginEmail] = useState('')
     const [password,setPassword] = useState('')
     const [gender,setGender] = useState('')
     const [yesGender,setYesGender] = useState(false)
@@ -117,7 +118,9 @@ const NewStaff = ({history}) => {
             sections:sectionList,
             courses:subjectList,
             isbussInCharge:isbussInCharge,
-            status:status
+            status:status,
+            loginemail:loginemail,
+            password:password
 
 
           }))
@@ -390,31 +393,7 @@ const NewStaff = ({history}) => {
                 
             </Col>
             <Col xs={12} md={4} lg={4}>
-            {/* <Form.Group controlId='gender'>
-            <h3>Bus In Charge:</h3>
-         <Form.Check type="checkbox" 
-         label="Yes"
-          value={isBusCharge} 
-          checked={isBusCharge}
-         onChange={(e)=>{
-             setBusInCharge(e.target.checked)
-             
-         }
-         }>
-
-         </Form.Check>
-         <Form.Check type="checkbox" 
-         label="No"
-          value={isBusCharge} 
-          checked={isBusCharge}
-         onChange={(e)=>{
-             setBusInCharge(e.target.checked)
-             
-         }
-         }>
-
-         </Form.Check>
-     </Form.Group> */}
+          
 
                 
             </Col>
@@ -455,18 +434,12 @@ const NewStaff = ({history}) => {
             
             
         </Row>
-        {isnewuser&&<Row>
+       <Row>
         <Col xs={12} md={4} lg={4}>
-            {/* <Form.Group controlId='username'>
-                    <Form.Label><span className="text-danger">*</span>Username</Form.Label>
-                    <Form.Control  
-                     style={{height:50}} type="text" placeholder="Enter username" value={userName} onChange={(e)=>setUserName(e.target.value)}>
-                    </Form.Control>
-                </Form.Group> */}
-
+           
                 <Form.Group controlId='email'>
                     <Form.Label><span className="text-danger">*</span>Login Email</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e)=>setEmail(e.target.value)}>
+                    <Form.Control type="email" placeholder="Enter email" value={loginemail} onChange={(e)=>setLoginEmail(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group controlId='password'>
@@ -475,7 +448,7 @@ const NewStaff = ({history}) => {
                     </Form.Control>
                 </Form.Group>
             </Col>
-        </Row>}
+        </Row>
     
         <hr></hr>
         <Row>
